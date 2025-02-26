@@ -1,0 +1,25 @@
+---
+- name: "<Add your rulebook name here>"
+  hosts: all
+  sources:
+    # Do not change any of the following details
+    - name: Listen to Kafka for team events
+      ansible.eda.kafka:
+        host: "{{ kafkahostname }}"
+        port: "{{ kafkaport }}"
+        group_id: "{{ kafkagroupid }}"
+        check_hostname: false
+        verify_mode: CERT_OPTIONAL
+    # Do not change any of the preceding details
+        topic: "< Add your team topic name here>"
+  rules:
+    # Add your team event rules here. Your Kafka event
+    # data will be available in event.body. A sample
+    # is included below.
+    #
+    - name: Sample rule
+      condition: event.body.message_type = "trigger_something"
+      actions:
+        - run_job_template:
+            name: "sample-template"
+            organization: "your_org_name"
