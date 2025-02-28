@@ -1,0 +1,20 @@
+---
+- name: "Test Receiving Events"
+  hosts: all
+  sources:
+    # Do not change any of the following details
+    - name: Listen to Kafka for team events
+      ansible.eda.kafka:
+        host: "{{ kafkahostname }}"
+        port: "{{ kafkaport }}"
+        group_id: "{{ kafkagroupid }}"
+        check_hostname: false
+        verify_mode: CERT_OPTIONAL
+    # Do not change any of the preceding details
+        topic: "test_events"
+  rules:
+    - name: Catch Everything
+      condition: event.meta is defined
+      actions:
+        - print_event:
+          pretty: true
